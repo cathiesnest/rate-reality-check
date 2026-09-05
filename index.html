@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#61796B" />
+  <meta name="description" content="Rate Reality Check — a simple freelance rate calculator for freelancers and aspiring VAs." />
+  <title>Rate Reality Check | Freelancers & Aspiring VAs</title>
+
+  <style>
+    :root {
+      --sage: #61796B;
+      --sage-dark: #40564A;
+      --sage-light: #E8EFEA;
+      --cream: #FAF8F3;
+      --warm: #F3EEE4;
+      --gold: #B99655;
+      --gold-light: #F5EBD5;
+      --ink: #29332E;
+      --muted: #68736D;
+      --white: #FFFFFF;
+      --border: #E1E5E0;
+      --danger: #A85A5A;
+      --shadow: 0 12px 35px rgba(50, 65, 57, 0.08);
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 248, 243, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(225, 229, 224, 0.8);
+    }
+
+    .nav {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--sage-dark);
+      font-size: 1.05rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--sage-dark);
+    }
+
+    /* HERO */
+    .hero {
+      padding: 72px 0 44px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 auto 14px;
+      max-width: 760px;
+      font-size: clamp(2.25rem, 6vw, 4.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      color: var(--sage-dark);
+    }
+
+    .hero-subtitle {
+      max-width: 620px;
+      margin: 0 auto 25px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .price-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      box-shadow: 0 5px 20px rgba(50, 65, 57, 0.05);
+      color: var(--sage-dark);
+      font-weight: 800;
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .calculator-card {
+      padding: clamp(20px, 4vw, 36px);
+      margin-bottom: 32px;
+    }
+
+    .section-heading {
+      margin-bottom: 25px;
+    }
+
+    .section-heading h2 {
+      margin: 0 0 6px;
+      color: var(--sage-dark);
+      font-size: 1.55rem;
+      letter-spacing: -0.03em;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 750;
+      color: var(--ink);
+    }
+
+    .hint {
+      font-size: 0.76rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 48px;
+      padding: 11px 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--cream);
+      color: var(--ink);
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px var(--sage-light);
+    }
+
+    .currency-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .btn {
+      min-height: 48px;
+      padding: 11px 18px;
+      border: 0;
+      border-radius: 12px;
+      font-weight: 800;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--sage);
+      color: var(--white);
+      box-shadow: 0 8px 20px rgba(97, 121, 107, 0.22);
+    }
+
+    .btn-secondary {
+      background: var(--sage-light);
+      color: var(--sage-dark);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--white);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--sage-dark);
+      border: 1px solid var(--border);
+    }
+
+    /* RESULTS */
+    #results {
+      display: none;
+      margin-bottom: 32px;
+    }
+
+    .result-card {
+      padding: clamp(22px, 5vw, 40px);
+      background: var(--sage-dark);
+      color: var(--white);
+      border-radius: var(--radius);
+      box-shadow: 0 20px 45px rgba(64, 86, 74, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .result-card::after {
+      content: "";
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      border-radius: 50%;
+      right: -80px;
+      top: -90px;
+      border: 35px solid rgba(255,255,255,0.05);
+    }
+
+    .result-label {
+      color: #D9E4DD;
+      font-size: 0.86rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .rate {
+      font-size: clamp(2.8rem, 8vw, 5rem);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      margin-bottom: 9px;
+    }
+
+    .rate-usd {
+      color: #D9E4DD;
+      font-size: 1.05rem;
+      margin-bottom: 22px;
+    }
+
+    .result-message {
+      max-width: 700px;
+      color: #EDF3EF;
+      margin-bottom: 25px;
+    }
+
+    .result-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 14px;
+      border-radius: 13px;
+    }
+
+    .stat span {
+      display: block;
+      font-size: 0.74rem;
+      color: #C8D6CE;
+      margin-bottom: 3px;
+    }
+
+    .stat strong {
+      font-size: 0.96rem;
+    }
+
+    /* ROLE RANGES */
+    .ranges-card {
+      padding: clamp(20px, 4vw, 32px);
+      margin-bottom: 32px;
+    }
+
+    .ranges {
+      display: grid;
+      gap: 10px;
+    }
+
+    .range-row {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 15px;
+      padding: 14px 15px;
+      background: var(--cream);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .range-role {
+      font-weight: 750;
+    }
+
+    .range-value {
+      text-align: right;
+      color: var(--sage-dark);
+      font-weight: 800;
+    }
+
+    /* TOOLKIT */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .tool-card {
+      padding: 22px;
+      text-decoration: none;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: 0.2s ease;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: #C8D4CC;
+    }
+
+    .tool-icon {
+      font-size: 1.5rem;
+      margin-bottom: 11px;
+    }
+
+    .tool-card h3 {
+      margin: 0 0 6px;
+      color: var(--sage-dark);
+      font-size: 1rem;
+    }
+
+    .tool-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    /* REFERRAL */
+    .referral {
+      padding: clamp(22px, 5vw, 35px);
+      margin-bottom: 32px;
+      background: var(--gold-light);
+      border: 1px solid #E8D9B9;
+    }
+
+    .referral h2 {
+      margin: 0 0 7px;
+      color: var(--sage-dark);
+    }
+
+    .referral p {
+      margin: 0 0 18px;
+      color: #625842;
+    }
+
+    .share-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 9px;
+    }
+
+    .share-box input {
+      background: var(--white);
+    }
+
+    .share-note {
+      margin-top: 10px;
+      font-size: 0.76rem;
+      color: #766C59;
+    }
+
+    /* PRICE CTA */
+    .pro-card {
+      padding: clamp(25px, 5vw, 42px);
+      text-align: center;
+      background: var(--white);
+      border: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+
+    .pro-card h2 {
+      margin: 0 0 8px;
+      color: var(--sage-dark);
+      font-size: 1.7rem;
+    }
+
+    .pro-card p {
+      max-width: 610px;
+      margin: 0 auto 20px;
+      color: var(--muted);
+    }
+
+    .pro-price {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--sage-dark);
+      margin-bottom: 16px;
+    }
+
+    /* DISCLOSURE */
+    details {
+      margin-bottom: 32px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 15px 18px;
+    }
+
+    summary {
+      cursor: pointer;
+      color: var(--sage-dark);
+      font-weight: 800;
+    }
+
+    .disclosure-content {
+      padding-top: 13px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .disclosure-content p {
+      margin: 0 0 12px;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 38px 0 48px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-weight: 850;
+      color: var(--sage-dark);
+      margin-bottom: 6px;
+    }
+
+    .footer-copy {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translate(-50%, 120px);
+      background: var(--ink);
+      color: var(--white);
+      padding: 11px 17px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+      transition: transform 0.25s ease;
+      z-index: 999;
+    }
+
+    .toast.show {
+      transform: translate(-50%, 0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 760px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 52px 0 30px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .result-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .share-box {
+        grid-template-columns: 1fr;
+      }
+
+      .range-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+
+      .range-value {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .container {
+        width: min(100% - 22px, 1100px);
+      }
+
+      .calculator-card,
+      .ranges-card,
+      .pro-card,
+      .referral {
+        border-radius: 16px;
+      }
+
+      .result-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .action-row .btn {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      header,
+      .hero,
+      .calculator-card,
+      .tool-grid,
+      .referral,
+      .pro-card,
+      details,
+      footer,
+      .action-row {
+        display: none !important;
+      }
+
+      body {
+        background: white;
+      }
+
+      #results {
+        display: block !important;
+      }
+
+      .result-card {
+        color: black;
+        background: white;
+        border: 2px solid #333;
+        box-shadow: none;
+      }
+
+      .result-card::after {
+        display: none;
+      }
+
+      .result-label,
+      .rate-usd,
+      .result-message,
+      .stat span {
+        color: #444;
+      }
+
+      .stat {
+        background: white;
+        border: 1px solid #ddd;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#">Rate Reality Check</a>
+
+      <nav class="nav-links">
+        <a href="#calculator">Calculate</a>
+        <a href="#tools">Explore</a>
+        <a href="#refer">Refer</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <div class="eyebrow">✦ Freelancer & VA Pricing Tool</div>
+
+        <h1>Know what you really need to charge.</h1>
+
+        <p class="hero-subtitle">
+          A simple reality check for freelancers and aspiring VAs —
+          based on the income you actually want to take home.
+        </p>
+
+        <div class="price-pill">
+          ₱499 &nbsp; / &nbsp; $7.99
+        </div>
+      </div>
+    </section>
+
+    <!-- CALCULATOR -->
+    <section id="calculator">
+      <div class="container">
+
+        <div class="card calculator-card">
+
+          <div class="section-heading">
+            <h2>Rate Reality Check</h2>
+            <p>
+              Tell us what you want to earn and how you plan to work.
+            </p>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="field">
+              <label for="currency">You want to be paid in</label>
+
+              <div class="currency-wrap">
+                <select id="currency">
+                  <option value="PHP">PHP (₱)</option>
+                  <option value="USD">USD ($)</option>
+                  <option value="AUD">AUD (A$)</option>
+                  <option value="GBP">GBP (£)</option>
+                  <option value="EUR">EUR (€)</option>
+                  <option value="CAD">CAD (C$)</option>
+                  <option value="SGD">SGD (S$)</option>
+                  <option value="NZD">NZD (NZ$)</option>
+                </select>
+
+                <input
+                  id="target"
+                  type="number"
+                  min="1"
+                  step="100"
+                  value="40000"
+                  placeholder="40000"
+                />
+              </div>
+
+              <span class="hint">
+                Enter your desired monthly take-home amount.
+              </span>
+            </div>
+
+            <div class="field">
+              <label for="hours">Hours per week</label>
+              <input
+                id="hours"
+                type="number"
+                min="1"
+                max="168"
+                value="40"
+              />
+              <span class="hint">Your planned working hours.</span>
+            </div>
+
+            <div class="field">
+              <label for="billable">Billable %</label>
+              <input
+                id="billable"
+                type="number"
+                min="1"
+                max="100"
+                value="70"
+              />
+              <span class="hint">
+                Time you realistically expect to bill clients.
+              </span>
+            </div>
+
+            <div class="field">
+              <label for="where">Where you work</label>
+              <select id="where">
+                <option value="direct">Direct client</option>
+                <option value="upwork">Upwork</option>
+                <option value="fiverr">Fiverr</option>
+                <option value="ojp">OnlineJobs.ph</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="payment">How you get paid</label>
+              <select id="payment">
+                <option value="wisepay">Wise / Payoneer</option>
+                <option value="paypal">PayPal</option>
+                <option value="bank">Direct bank transfer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="tax">
+                Freelance tax rate (%)
+              </label>
+              <input
+                id="tax"
+                type="number"
+                min="0"
+                max="100"
+                value="8"
+                step="0.1"
+              />
+              <span class="hint">
+                Enter your estimated effective tax rate.
+              </span>
+            </div>
+
+          </div>
+
+          <div class="action-row">
+            <button class="btn btn-primary" onclick="calculateRate()">
+              Check My Reality →
+            </button>
+
+            <button class="btn btn-outline" onclick="resetCalculator()">
+              Reset
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="results">
+      <div class="container">
+
+        <div class="result-card">
+
+          <div class="result-label">YOUR RATE REALITY CHECK</div>
+
+          <div class="rate" id="resultRate">₱0/hr</div>
+
+          <div class="rate-usd" id="resultConverted">
+            Approximately $0/hr
+          </div>
+
+          <p class="result-message" id="resultMessage">
+            Your result will appear here.
+          </p>
+
+          <div class="result-stats">
+
+            <div class="stat">
+              <span>Take-home target</span>
+              <strong id="statTarget">₱0</strong>
+            </div>
+
+            <div class="stat">
+              <span>Estimated tax</span>
+              <strong id="statTax">₱0</strong>
+            </div>
+
+            <div class="stat">
+              <span>Platform fee</span>
+              <strong id="statPlatform">₱0</strong>
+            </div>
+
+            <div class="stat">
+              <span>Billable hours</span>
+              <strong id="statHours">0 hrs</strong>
+            </div>
+
+          </div>
+
+          <div class="action-row">
+            <button class="btn btn-gold" onclick="saveRateCard()">
+              Save as Rate Card
+            </button>
+
+            <button class="btn btn-secondary" onclick="window.print()">
+              Print / PDF
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ROLE RANGES -->
+    <section>
+      <div class="container">
+
+        <div class="card ranges-card">
+
+          <div class="section-heading">
+            <h2>Negotiation Range by Role</h2>
+            <p>
+              Use these as reference ranges — not guarantees of market pricing.
+            </p>
+          </div>
+
+          <div class="ranges">
+
+            <div class="range-row">
+              <div class="range-role">General VA</div>
+              <div class="range-value">₱250 – ₱700/hr</div>
+            </div>
+
+            <div class="range-row">
+              <div class="range-role">Social Media Manager</div>
+              <div class="range-value">₱350 – ₱950/hr</div>
+            </div>
+
+            <div class="range-row">
+              <div class="range-role">Bookkeeper</div>
+              <div class="range-value">₱400 – ₱1,100/hr</div>
+            </div>
+
+            <div class="range-row">
+              <div class="range-role">Copywriter</div>
+              <div class="range-value">₱450 – ₱1,400/hr</div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLKIT -->
+    <section id="tools">
+      <div class="container">
+
+        <div class="section-heading">
+          <h2>Your next step</h2>
+          <p>
+            Rate Reality Check is part of a growing collection of practical tools.
+          </p>
+        </div>
+
+        <div class="tool-grid">
+
+          <a
+            class="tool-card"
+            href="https://cathiesnest.github.io/tabing-guhit-3.0/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="tool-icon">🎯</div>
+            <h3>Find Your Niche</h3>
+            <p>
+              Discover a freelance direction with Tabing Guhit's Find Your Niche 3.0.
+            </p>
+          </a>
+
+          <a
+            class="tool-card"
+            href="https://alison.com/?utm_source=alison_user&utm_medium=affiliate&utm_campaign=42404117"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="tool-icon">🎓</div>
+            <h3>Explore Free Courses</h3>
+            <p>
+              Explore learning opportunities through Alison.
+            </p>
+          </a>
+
+          <a
+            class="tool-card"
+            href="https://cathiesnest.github.io/self-love-academy/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="tool-icon">🌱</div>
+            <h3>Self Love Academy</h3>
+            <p>
+              Take a gentle pause and reconnect with yourself.
+            </p>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ALISON CAREER COURSES -->
+    <section>
+      <div class="container">
+
+        <div class="card tool-card" style="margin-bottom:32px;">
+
+          <div class="tool-icon">📚</div>
+
+          <h3>Ready to build your skills?</h3>
+
+          <p style="margin-bottom:15px;">
+            Explore certificate courses and find learning opportunities
+            that can support your next career move.
+          </p>
+
+          <a
+            class="btn btn-secondary"
+            style="display:inline-flex; align-items:center; text-decoration:none;"
+            href="https://alison.com/careers?utm_source=alison_user&utm_medium=affiliate&utm_campaign=42404117"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Explore Certificate Courses →
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- REFERRAL -->
+    <section id="refer">
+      <div class="container">
+
+        <div class="card referral">
+
+          <h2>❤️ Refer This App</h2>
+
+          <p>
+            Know a freelancer or aspiring VA who needs a rate reality check?
+            Share the tool with them.
+          </p>
+
+          <div class="share-box">
+
+            <input
+              id="referralLink"
+              type="text"
+              readonly
+            />
+
+            <button
+              class="btn btn-primary"
+              onclick="copyReferralLink()"
+            >
+              Copy Link
+            </button>
+
+          </div>
+
+          <div class="action-row">
+
+            <button
+              class="btn btn-secondary"
+              onclick="shareApp()"
+            >
+              Share This App
+            </button>
+
+          </div>
+
+          <div class="share-note">
+            Referral tracking is designed to be expanded with a secure
+            attribution system in a future version. Copying or sharing a link
+            by itself does not guarantee a referral reward.
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PRO CTA -->
+    <section>
+      <div class="container">
+
+        <div class="card pro-card">
+
+          <h2>Want the complete Rate Reality Check?</h2>
+
+          <p>
+            Get the polished digital tool designed to help freelancers
+            understand their numbers, prepare their rate card, and price
+            their work with more confidence.
+          </p>
+
+          <div class="pro-price">
+            ₱499 <span style="font-size:1rem; color:var(--muted);">/ $7.99</span>
+          </div>
+
+          <button
+            class="btn btn-gold"
+            onclick="showComingSoon()"
+          >
+            Get the Complete Tool →
+          </button>
+
+          <div class="hint" style="margin-top:12px;">
+            Secure checkout link will be added here.
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DISCLOSURE -->
+    <section>
+      <div class="container">
+
+        <details>
+
+          <summary>
+            Disclaimer & Affiliate Disclosure
+          </summary>
+
+          <div class="disclosure-content">
+
+            <p>
+              Rate Reality Check provides estimates for informational and
+              planning purposes only. Results depend on the information
+              entered by the user and may not reflect actual taxes, fees,
+              market rates, payment charges, or income.
+            </p>
+
+            <p>
+              The Alison link shared on this website belongs to the site's
+              owner, who is a registered Alison Affiliate Partner and may
+              earn a commission from qualifying purchases or actions, at no
+              extra cost to you.
+            </p>
+
+            <p>
+              This is a paid referral arrangement only. It does not represent
+              an endorsement by Alison or a partnership between Alison and
+              the site's owner.
+            </p>
+
+          </div>
+
+        </details>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+
+      <div class="footer-brand">
+        Powered by CathiesNest Digital
+      </div>
+
+      <div class="footer-copy">
+        © <span id="year"></span> CathiesNest Digital · Rate Reality Check
+      </div>
+
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">
+    Copied!
+  </div>
+
+  <script>
+
+    /* -----------------------------
+       CURRENCY DATA
+    ----------------------------- */
+
+    const currencySymbols = {
+      PHP: "₱",
+      USD: "$",
+      AUD: "A$",
+      GBP: "£",
+      EUR: "€",
+      CAD: "C$",
+      SGD: "S$",
+      NZD: "NZ$"
+    };
+
+    /*
+      Approximate reference rates to PHP.
+      These are intentionally stored client-side for the MVP.
+      A future version can use a live exchange-rate API.
+    */
+
+    const phpPerUnit = {
+      PHP: 1,
+      USD: 58.0,
+      AUD: 41.5,
+      GBP: 78.0,
+      EUR: 68.0,
+      CAD: 42.0,
+      SGD: 45.0,
+      NZD: 35.5
+    };
+
+    /* -----------------------------
+       PLATFORM FEES
+    ----------------------------- */
+
+    const platformRates = {
+      direct: 0,
+      upwork: 0.10,
+      fiverr: 0.20,
+      ojp: 0
+    };
+
+    /* -----------------------------
+       PAYMENT FEES
+    ----------------------------- */
+
+    const paymentRates = {
+      wisepay: 0.01,
+      paypal: 0.045,
+      bank: 0.015
+    };
+
+    /* -----------------------------
+       CALCULATE
+    ----------------------------- */
+
+    function calculateRate() {
+
+      const currency = document.getElementById("currency").value;
+      const target = Number(document.getElementById("target").value);
+      const hours = Number(document.getElementById("hours").value);
+      const billable = Number(document.getElementById("billable").value);
+      const platform = document.getElementById("where").value;
+      const payment = document.getElementById("payment").value;
+      const taxRate = Number(document.getElementById("tax").value);
+
+      if (
+        !target ||
+        target <= 0 ||
+        !hours ||
+        hours <= 0 ||
+        !billable ||
+        billable <= 0
+      ) {
+        showToast("Please enter valid numbers.");
+        return;
+      }
+
+      /* Convert target to PHP for a common calculation base. */
+
+      const targetPHP = currency === "PHP"
+        ? target
+        : target * phpPerUnit[currency];
+
+      /* Tax gross-up */
+
+      const taxMultiplier = 1 - (taxRate / 100);
+
+      if (taxMultiplier <= 0) {
+        showToast("Tax rate must be below 100%.");
+        return;
+      }
+
+      const beforeTax = targetPHP / taxMultiplier;
+      const taxAmount = beforeTax - targetPHP;
+
+      /* Platform and payment assumptions */
+
+      const platformRate = platformRates[platform] || 0;
+      const paymentRate = paymentRates[payment] || 0;
+
+      const totalFeeRate = platformRate + paymentRate;
+
+      const requiredRevenue =
+        beforeTax / (1 - totalFeeRate);
+
+      /* Billable monthly hours */
+
+      const billableHours =
+        hours * 4.33 * (billable / 100);
+
+      if (billableHours <= 0) {
+        showToast("Billable hours must be greater than zero.");
+        return;
+      }
+
+      const hourlyPHP =
+        requiredRevenue / billableHours;
+
+      /* Convert hourly PHP into selected currency */
+
+      const hourlySelected =
+        currency === "PHP"
+          ? hourlyPHP
+          : hourlyPHP / phpPerUnit[currency];
+
+      /* Convert selected rate to USD */
+
+      const hourlyUSD =
+        hourlyPHP / phpPerUnit.USD;
+
+      /* Fee amounts */
+
+      const platformFee =
+        requiredRevenue * platformRate;
+
+      const paymentFee =
+        requiredRevenue * paymentRate;
+
+      /* Display */
+
+      document.getElementById("resultRate").textContent =
+        `${currencySymbols[currency]}${formatMoney(hourlySelected)}/hr`;
+
+      document.getElementById("resultConverted").textContent =
+        `≈ $${formatMoney(hourlyUSD)}/hr USD`;
+
+      document.getElementById("statTarget").textContent =
+        `₱${formatMoney(targetPHP)}`;
+
+      document.getElementById("statTax").textContent =
+        `₱${formatMoney(taxAmount)}`;
+
+      document.getElementById("statPlatform").textContent =
+        `₱${formatMoney(platformFee + paymentFee)}`;
+
+      document.getElementById("statHours").textContent =
+        `${formatMoney(billableHours)} hrs`;
+
+      const roleHint =
+        hourlyPHP > 700
+          ? "Your target rate is above the General VA reference range, so you'll likely need stronger specialization, positioning, or a higher-value service."
+          : hourlyPHP > 400
+          ? "Your target rate is within or above many common freelance support ranges. Your skills, niche, portfolio, and client type will influence what you can negotiate."
+          : "Your target may be achievable within common entry-to-mid freelance ranges, but don't automatically accept the lowest offer.";
+
+      document.getElementById("resultMessage").textContent =
+        `To reach your ₱${formatMoney(targetPHP)} monthly take-home target under these assumptions, your estimated rate is ${currencySymbols[currency]}${formatMoney(hourlySelected)}/hr. ${roleHint}`;
+
+      document.getElementById("results").style.display = "block";
+
+      document.getElementById("results").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      /* Save current calculation locally */
+
+      const result = {
+        currency,
+        targetPHP,
+        hourlyPHP,
+        hourlySelected,
+        hourlyUSD,
+        billableHours,
+        taxAmount,
+        platformFee,
+        paymentFee,
+        timestamp: new Date().toISOString()
+      };
+
+      localStorage.setItem(
+        "rateRealityCheck",
+        JSON.stringify(result)
+      );
+    }
+
+    /* -----------------------------
+       FORMATTING
+    ----------------------------- */
+
+    function formatMoney(value) {
+      return Number(value).toLocaleString("en-PH", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      });
+    }
+
+    /* -----------------------------
+       RESET
+    ----------------------------- */
+
+    function resetCalculator() {
+
+      document.getElementById("currency").value = "PHP";
+      document.getElementById("target").value = "40000";
+      document.getElementById("hours").value = "40";
+      document.getElementById("billable").value = "70";
+      document.getElementById("where").value = "direct";
+      document.getElementById("payment").value = "wisepay";
+      document.getElementById("tax").value = "8";
+
+      document.getElementById("results").style.display = "none";
+
+      localStorage.removeItem("rateRealityCheck");
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    /* -----------------------------
+       SAVE RATE CARD
+    ----------------------------- */
+
+    function saveRateCard() {
+
+      const saved = localStorage.getItem("rateRealityCheck");
+
+      if (!saved) {
+        showToast("Calculate your rate first.");
+        return;
+      }
+
+      const data = JSON.parse(saved);
+
+      const rateCard = `
+RATE REALITY CHECK
+Freelancer / VA Rate Card
+----------------------------
+
+Recommended Rate:
+${currencySymbols[data.currency]}${formatMoney(data.hourlySelected)}/hr
+
+Approx. USD:
+$${formatMoney(data.hourlyUSD)}/hr
+
+Monthly Take-Home Target:
+₱${formatMoney(data.targetPHP)}
+
+Billable Hours:
+${formatMoney(data.billableHours)} hrs/month
+
+Generated by:
+Rate Reality Check
+Powered by CathiesNest Digital
+
+https://cathiesnest.github.io/rate-reality-check/
+      `.trim();
+
+      const blob = new Blob(
+        [rateCard],
+        { type: "text/plain;charset=utf-8" }
+      );
+
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "my-rate-reality-check.txt";
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      URL.revokeObjectURL(url);
+
+      showToast("Rate card saved!");
+    }
+
+    /* -----------------------------
+       REFERRAL LINK
+    ----------------------------- */
+
+    function getReferralLink() {
+
+      const baseUrl =
+        window.location.origin +
+        window.location.pathname;
+
+      let referralCode =
+        localStorage.getItem("rrcReferralCode");
+
+      if (!referralCode) {
+
+        referralCode =
+          "RRC-" +
+          Math.random()
+            .toString(36)
+            .substring(2, 8)
+            .toUpperCase();
+
+        localStorage.setItem(
+          "rrcReferralCode",
+          referralCode
+        );
+      }
+
+      return `${baseUrl}?ref=${referralCode}`;
+    }
+
+    document.getElementById("referralLink").value =
+      getReferralLink();
+
+    /* -----------------------------
+       COPY
+    ----------------------------- */
+
+    async function copyReferralLink() {
+
+      const link =
+        document.getElementById("referralLink").value;
+
+      try {
+
+        await navigator.clipboard.writeText(link);
+
+        showToast("Referral link copied!");
+
+      } catch (error) {
+
+        const input =
+          document.getElementById("referralLink");
+
+        input.select();
+
+        document.execCommand("copy");
+
+        showToast("Referral link copied!");
+      }
+    }
+
+    /* -----------------------------
+       SHARE
+    ----------------------------- */
+
+    async function shareApp() {
+
+      const link = getReferralLink();
+
+      const shareData = {
+        title: "Rate Reality Check",
+        text: "Think you know what you should charge? Try Rate Reality Check.",
+        url: link
+      };
+
+      if (navigator.share) {
+
+        try {
+          await navigator.share(shareData);
+        } catch (error) {
+          /* User cancelled share. */
+        }
+
+      } else {
+
+        await copyReferralLink();
+
+      }
+    }
+
+    /* -----------------------------
+       TOAST
+    ----------------------------- */
+
+    function showToast(message) {
+
+      const toast =
+        document.getElementById("toast");
+
+      toast.textContent = message;
+
+      toast.classList.add("show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2300);
+    }
+
+    /* -----------------------------
+       CTA
+    ----------------------------- */
+
+    function showComingSoon() {
+
+      showToast(
+        "The secure ₱499 / $7.99 checkout will be connected next."
+      );
+
+    }
+
+    /* -----------------------------
+       YEAR
+    ----------------------------- */
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+  </script>
+
+</body>
+</html>
