@@ -24,7 +24,6 @@
       --shadow: 0 12px 35px rgba(50, 65, 57, 0.08);
       --radius: 20px;
 
-      /* Soft accent palette */
       --coral: #E89A8A;
       --coral-light: #FCE9E4;
       --coral-soft: rgba(232, 154, 138, 0.15);
@@ -153,7 +152,6 @@
       transform: translateY(-1px);
     }
 
-    /* Filled active state when a nav section is the current target */
     body:has(#calculator:target) .nav-links a[href="#calculator"],
     body:has(#tools:target) .nav-links a[href="#tools"],
     body:has(#refer:target) .nav-links a[href="#refer"] {
@@ -279,7 +277,6 @@
       color: var(--ink);
     }
 
-    /* Colored icon chips beside form labels */
     .field label {
       display: inline-flex;
       align-items: center;
@@ -407,7 +404,6 @@
       color: var(--sage-dark);
     }
 
-    /* UPDATED COMPLETE TOOL BUTTON */
     .btn-gold {
       background: var(--sage-dark);
       color: var(--white);
@@ -690,8 +686,37 @@
 
     .share-note {
       margin-top: 10px;
-      font-size: 0.76rem;
-      color: #766C59;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #625842;
+    }
+
+    /* NEW SOCIAL LINKS */
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--sage-dark);
+      border: 1px solid rgba(184, 167, 217, 0.25);
+      font-weight: 750;
+      font-size: 0.88rem;
+      transition: 0.2s ease;
+    }
+
+    .social-links a:hover {
+      background: var(--white);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(50, 65, 57, 0.08);
     }
 
     /* PRICE CTA */
@@ -863,6 +888,14 @@
             rgba(241, 236, 248, 0.72) 125px,
             rgba(255, 255, 255, 0.98) 125px
           );
+      }
+
+      .social-links {
+        flex-direction: column;
+      }
+
+      .social-links a {
+        justify-content: center;
       }
     }
 
@@ -1293,8 +1326,8 @@
           <h2>❤️ Refer This App</h2>
 
           <p>
-            Know a freelancer or aspiring VA who needs a rate reality check?
-            Share the tool with them.
+            Know someone underpricing their work?
+            Share the Rate Reality Check App.
           </p>
 
           <div class="share-box">
@@ -1320,8 +1353,28 @@
               class="btn btn-secondary"
               onclick="shareApp()"
             >
-              Share This App
+              Share the Rate Reality Check App
             </button>
+
+          </div>
+
+          <div class="social-links">
+
+            <a
+              href="https://www.facebook.com/people/Ta"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Follow us on Facebook →
+            </a>
+
+            <a
+              href="https://ph.pinterest.com/CathiesnestDigitalHub/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Follow along Pinterest →
+            </a>
 
           </div>
 
@@ -1446,12 +1499,6 @@
       NZD: "NZ$"
     };
 
-    /*
-      Approximate reference rates to PHP.
-      These are intentionally stored client-side for the MVP.
-      A future version can use a live exchange-rate API.
-    */
-
     const phpPerUnit = {
       PHP: 1,
       USD: 58.0,
@@ -1510,13 +1557,9 @@
         return;
       }
 
-      /* Convert target to PHP for a common calculation base. */
-
       const targetPHP = currency === "PHP"
         ? target
         : target * phpPerUnit[currency];
-
-      /* Tax gross-up */
 
       const taxMultiplier = 1 - (taxRate / 100);
 
@@ -1528,8 +1571,6 @@
       const beforeTax = targetPHP / taxMultiplier;
       const taxAmount = beforeTax - targetPHP;
 
-      /* Platform and payment assumptions */
-
       const platformRate = platformRates[platform] || 0;
       const paymentRate = paymentRates[payment] || 0;
 
@@ -1537,8 +1578,6 @@
 
       const requiredRevenue =
         beforeTax / (1 - totalFeeRate);
-
-      /* Billable monthly hours */
 
       const billableHours =
         hours * 4.33 * (billable / 100);
@@ -1551,27 +1590,19 @@
       const hourlyPHP =
         requiredRevenue / billableHours;
 
-      /* Convert hourly PHP into selected currency */
-
       const hourlySelected =
         currency === "PHP"
           ? hourlyPHP
           : hourlyPHP / phpPerUnit[currency];
 
-      /* Convert selected rate to USD */
-
       const hourlyUSD =
         hourlyPHP / phpPerUnit.USD;
-
-      /* Fee amounts */
 
       const platformFee =
         requiredRevenue * platformRate;
 
       const paymentFee =
         requiredRevenue * paymentRate;
-
-      /* Display */
 
       document.getElementById("resultRate").textContent =
         `${currencySymbols[currency]}${formatMoney(hourlySelected)}/hr`;
@@ -1607,8 +1638,6 @@
         behavior: "smooth",
         block: "start"
       });
-
-      /* Save current calculation locally */
 
       const result = {
         currency,
