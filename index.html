@@ -24,22 +24,22 @@
       --shadow: 0 12px 35px rgba(50, 65, 57, 0.08);
       --radius: 20px;
 
-      /* SOFT ACCENT COLORS */
+      /* Soft accent palette */
       --coral: #E89A8A;
       --coral-light: #FCE9E4;
-      --coral-soft: rgba(232, 154, 138, 0.16);
+      --coral-soft: rgba(232, 154, 138, 0.15);
 
       --lavender: #B8A7D9;
       --lavender-light: #F1ECF8;
-      --lavender-soft: rgba(184, 167, 217, 0.18);
+      --lavender-soft: rgba(184, 167, 217, 0.16);
 
       --mint: #9CCDBA;
       --mint-light: #EAF6F0;
-      --mint-soft: rgba(156, 205, 186, 0.18);
+      --mint-soft: rgba(156, 205, 186, 0.16);
 
       --amber: #E7B765;
       --amber-light: #FBF1DC;
-      --amber-soft: rgba(231, 183, 101, 0.18);
+      --amber-soft: rgba(231, 183, 101, 0.15);
     }
 
     * {
@@ -54,30 +54,28 @@
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
-
       background:
         radial-gradient(
           circle at 0% 0%,
-          rgba(232, 154, 138, 0.13),
+          rgba(232, 154, 138, 0.12),
           transparent 30%
         ),
         radial-gradient(
-          circle at 100% 5%,
-          rgba(184, 167, 217, 0.15),
+          circle at 100% 4%,
+          rgba(184, 167, 217, 0.14),
           transparent 32%
         ),
         radial-gradient(
           circle at 0% 100%,
-          rgba(156, 205, 186, 0.14),
+          rgba(156, 205, 186, 0.13),
           transparent 30%
         ),
         radial-gradient(
           circle at 100% 100%,
-          rgba(231, 183, 101, 0.10),
+          rgba(231, 183, 101, 0.09),
           transparent 28%
         ),
         var(--cream);
-
       color: var(--ink);
       line-height: 1.55;
     }
@@ -102,7 +100,6 @@
     }
 
     /* HEADER */
-
     header {
       position: sticky;
       top: 0;
@@ -128,17 +125,15 @@
       font-size: 1.05rem;
     }
 
-    /* PILL NAVIGATION */
-
     .nav-links {
       display: flex;
       gap: 6px;
       align-items: center;
-      font-size: 0.9rem;
       padding: 5px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.65);
-      border: 1px solid rgba(225, 229, 224, 0.8);
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(225, 229, 224, 0.85);
+      font-size: 0.9rem;
     }
 
     .nav-links a {
@@ -158,8 +153,16 @@
       transform: translateY(-1px);
     }
 
-    /* HERO */
+    /* Filled active state when a nav section is the current target */
+    body:has(#calculator:target) .nav-links a[href="#calculator"],
+    body:has(#tools:target) .nav-links a[href="#tools"],
+    body:has(#refer:target) .nav-links a[href="#refer"] {
+      background: var(--sage-dark);
+      color: var(--white);
+      box-shadow: 0 4px 12px rgba(64, 86, 74, 0.14);
+    }
 
+    /* HERO */
     .hero {
       padding: 72px 0 44px;
       text-align: center;
@@ -171,13 +174,11 @@
       gap: 7px;
       padding: 7px 13px;
       border-radius: 999px;
-
       background: linear-gradient(
         135deg,
         var(--lavender-light),
         var(--coral-light)
       );
-
       border: 1px solid rgba(184, 167, 217, 0.25);
       color: var(--sage-dark);
       font-size: 0.8rem;
@@ -201,20 +202,16 @@
       font-size: 1.08rem;
     }
 
-    /* PRICE PILL */
-
     .price-pill {
       display: inline-flex;
       align-items: center;
       gap: 9px;
       padding: 10px 16px;
-
       background: linear-gradient(
         135deg,
         var(--coral),
         var(--amber)
       );
-
       border: 0;
       border-radius: 999px;
       box-shadow: 0 8px 22px rgba(232, 154, 138, 0.20);
@@ -223,20 +220,16 @@
     }
 
     /* CARDS */
-
     .card {
-      background: var(--white);
-      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.97);
+      border: 1px solid rgba(225, 229, 224, 0.9);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
     }
 
-    /* CALCULATOR */
-
     .calculator-card {
       padding: clamp(20px, 4vw, 36px);
       margin-bottom: 32px;
-
       background:
         linear-gradient(
           180deg,
@@ -244,7 +237,6 @@
           rgba(241, 236, 248, 0.72) 105px,
           rgba(255, 255, 255, 0.98) 105px
         );
-
       border-color: rgba(184, 167, 217, 0.28);
     }
 
@@ -285,13 +277,14 @@
       font-size: 0.85rem;
       font-weight: 750;
       color: var(--ink);
+    }
 
+    /* Colored icon chips beside form labels */
+    .field label {
       display: inline-flex;
       align-items: center;
       gap: 8px;
     }
-
-    /* FORM ICON CHIPS */
 
     .field label::before {
       display: inline-flex;
@@ -303,7 +296,8 @@
       border-radius: 9px;
       font-size: 0.82rem;
       line-height: 1;
-      border: 1px solid rgba(255,255,255,0.7);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: 0 3px 8px rgba(50, 65, 57, 0.04);
     }
 
     .field:nth-child(1) label::before {
@@ -353,10 +347,8 @@
       width: 100%;
       min-height: 48px;
       padding: 11px 13px;
-
       border: 1px solid rgba(184, 167, 217, 0.28);
       border-radius: 14px;
-
       background: rgba(250, 248, 243, 0.82);
       color: var(--ink);
       outline: none;
@@ -396,15 +388,12 @@
       transform: translateY(-1px);
     }
 
-    /* PRIMARY CTA */
-
     .btn-primary {
       background: linear-gradient(
         135deg,
         var(--coral),
         var(--amber)
       );
-
       color: var(--white);
       box-shadow: 0 8px 20px rgba(232, 154, 138, 0.22);
     }
@@ -424,19 +413,17 @@
         var(--coral),
         var(--amber)
       );
-
       color: var(--white);
       box-shadow: 0 8px 20px rgba(231, 183, 101, 0.20);
     }
 
     .btn-outline {
-      background: rgba(255,255,255,0.6);
+      background: rgba(255, 255, 255, 0.6);
       color: var(--sage-dark);
       border: 1px solid rgba(184, 167, 217, 0.35);
     }
 
     /* RESULTS */
-
     #results {
       display: none;
       margin-bottom: 32px;
@@ -444,7 +431,6 @@
 
     .result-card {
       padding: clamp(22px, 5vw, 40px);
-
       background:
         radial-gradient(
           circle at 100% 0%,
@@ -457,7 +443,6 @@
           transparent 28%
         ),
         var(--sage-dark);
-
       color: var(--white);
       border-radius: var(--radius);
       box-shadow: 0 20px 45px rgba(64, 86, 74, 0.2);
@@ -529,19 +514,16 @@
     }
 
     /* ROLE RANGES */
-
     .ranges-card {
       padding: clamp(20px, 4vw, 32px);
       margin-bottom: 32px;
-
+      border-color: rgba(156, 205, 186, 0.30);
       background:
         linear-gradient(
           180deg,
           rgba(234, 246, 240, 0.58),
           rgba(255,255,255,0.98) 110px
         );
-
-      border-color: rgba(156, 205, 186, 0.30);
     }
 
     .ranges {
@@ -593,7 +575,6 @@
     }
 
     /* TOOLKIT */
-
     .tool-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -621,7 +602,7 @@
         linear-gradient(
           145deg,
           rgba(241, 236, 248, 0.85),
-          #FFFFFF 65%
+          var(--white) 65%
         );
     }
 
@@ -630,7 +611,7 @@
         linear-gradient(
           145deg,
           rgba(251, 241, 220, 0.82),
-          #FFFFFF 65%
+          var(--white) 65%
         );
     }
 
@@ -639,7 +620,7 @@
         linear-gradient(
           145deg,
           rgba(234, 246, 240, 0.85),
-          #FFFFFF 65%
+          var(--white) 65%
         );
     }
 
@@ -669,11 +650,9 @@
     }
 
     /* REFERRAL */
-
     .referral {
       padding: clamp(22px, 5vw, 35px);
       margin-bottom: 32px;
-
       background:
         radial-gradient(
           circle at 100% 0%,
@@ -681,7 +660,6 @@
           transparent 35%
         ),
         var(--gold-light);
-
       border: 1px solid rgba(232, 154, 138, 0.25);
       border-radius: var(--radius);
     }
@@ -713,19 +691,16 @@
     }
 
     /* PRICE CTA */
-
     .pro-card {
       padding: clamp(25px, 5vw, 42px);
       text-align: center;
-
       background:
         linear-gradient(
           145deg,
           rgba(252, 233, 228, 0.48),
           rgba(251, 241, 220, 0.45),
-          #FFFFFF 72%
+          var(--white) 72%
         );
-
       border: 1px solid rgba(232, 154, 138, 0.25);
       margin-bottom: 32px;
     }
@@ -742,40 +717,36 @@
       color: var(--muted);
     }
 
+    /* UPDATED PRICING PILL */
     .pro-price {
-      display: inline-block;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
       padding: 9px 17px;
       border-radius: 999px;
-
-      background: linear-gradient(
-        135deg,
-        var(--coral),
-        var(--amber)
-      );
-
+      background: var(--sage-dark);
       color: var(--white);
-      font-size: 2rem;
-      font-weight: 900;
+      font-size: 30px;
+      font-weight: 800;
       margin-bottom: 16px;
-      box-shadow: 0 8px 20px rgba(232, 154, 138, 0.18);
+      box-shadow: 0 8px 20px rgba(64, 86, 74, 0.18);
     }
 
     .pro-price span {
       color: var(--white) !important;
+      font-size: 16px !important;
+      font-weight: 500 !important;
     }
 
     /* DISCLOSURE */
-
     details {
       margin-bottom: 32px;
-
       background:
         linear-gradient(
           145deg,
           rgba(241, 236, 248, 0.48),
-          #FFFFFF 70%
+          var(--white) 70%
         );
-
       border: 1px solid rgba(184, 167, 217, 0.25);
       border-radius: 18px;
       padding: 15px 18px;
@@ -798,19 +769,16 @@
     }
 
     /* FOOTER */
-
     footer {
       padding: 38px 0 48px;
-
+      border-top: 1px solid rgba(156, 205, 186, 0.35);
+      text-align: center;
       background:
         linear-gradient(
           180deg,
           rgba(234, 246, 240, 0.72),
           rgba(234, 246, 240, 0.28)
         );
-
-      border-top: 1px solid rgba(156, 205, 186, 0.35);
-      text-align: center;
     }
 
     .footer-brand {
@@ -825,7 +793,6 @@
     }
 
     /* TOAST */
-
     .toast {
       position: fixed;
       left: 50%;
@@ -847,7 +814,6 @@
     }
 
     /* RESPONSIVE */
-
     @media (max-width: 760px) {
       .nav-links {
         display: none;
