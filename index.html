@@ -407,14 +407,18 @@
       color: var(--sage-dark);
     }
 
+    /* UPDATED COMPLETE TOOL BUTTON */
     .btn-gold {
-      background: linear-gradient(
-        135deg,
-        var(--coral),
-        var(--amber)
-      );
+      background: var(--sage-dark);
       color: var(--white);
-      box-shadow: 0 8px 20px rgba(231, 183, 101, 0.20);
+      box-shadow: 0 8px 20px rgba(64, 86, 74, 0.22);
+      border: 1px solid var(--sage-dark);
+    }
+
+    .btn-gold:hover {
+      background: #304339;
+      color: var(--white);
+      box-shadow: 0 11px 24px rgba(64, 86, 74, 0.30);
     }
 
     .btn-outline {
@@ -717,7 +721,6 @@
       color: var(--muted);
     }
 
-    /* UPDATED PRICING PILL */
     .pro-price {
       display: inline-flex;
       align-items: baseline;
